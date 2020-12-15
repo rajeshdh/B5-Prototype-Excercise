@@ -74,10 +74,30 @@ function Airplane(name) {
           + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
   */
   
- function Car() {
-    
+ function Car(model, milesPerGallon) {
+    this.model = model;
+    this.milesPerGallon = milesPerGallon;
+    this.tank = 0 ;
+    this.odometer = 0 ;
   }
   
+  Car.prototype.fill = function(gallons){
+    this.tank += gallons;
+  }
+
+  Car.prototype.drive = function(distance){
+    let fuelUsed = distance/this.milesPerGallon;
+    if(fuelUsed > this.tank){
+      let milesDriven = this.tank * this.milesPerGallon;
+      this.odometer += milesDriven;
+      this.tank = 0;
+      return `I ran out of fuel at ${this.odometer} miles!`
+    } else {
+      this.odometer += distance;
+      this.tank -= fuelUsed;
+    }
+
+  }
   
   /*
     TASK 3
@@ -86,18 +106,25 @@ function Airplane(name) {
       - Besides the methods on Person.prototype, babies have the ability to `.play()`:
           + Should return a string "Playing with x", x being the favorite toy.
   */
- function Baby() {
-   
+ function Baby(name, age, favoriteToy) {
+   Person.call(this, name, age)
+   this.favoriteToy = favoriteToy;
   }
  
-  
+  Baby.prototype = Person.prototype;
+
+  Baby.prototype.play = function(){
+    return `Playing with ${this.favoriteToy}`
+  }
+
+
   /* 
     TASK 4
     In your own words explain the four principles for the "this" keyword below:
-    1. 
-    2. 
-    3. 
-    4. 
+    1. In global scope this points to the window object and is undefined if strict mode is enabled.
+    2. The object to the left of the function called is this.
+    3. When used with a constructor function, this points to the instance created and returned by the constructor function.
+    4. We can explicitly bind this to an object using call and apply methods. 
   */
   
   
